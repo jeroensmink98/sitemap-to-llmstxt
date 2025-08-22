@@ -1,0 +1,37 @@
+---
+description: Prevent Python code execution for security
+globs: ["**/*.py", "**/*.pyw", "**/*.ipynb"]
+alwaysApply: false
+---
+
+# Python Code Execution Prevention
+
+## Security Rules
+
+- NEVER execute Python code or run Python scripts
+- NEVER run `python`, `python3`, or any Python interpreter commands
+- NEVER execute the main.py script or any other Python files
+- NEVER run pip, uv, or any package manager commands that could execute code
+- NEVER run any commands that could potentially execute Python code
+
+## Allowed Actions
+
+- Read and analyze Python code files
+- Edit Python code files
+- Search through the codebase
+- View file contents and directory structures
+- Make code suggestions and improvements
+- Test syntax and logic without execution
+
+## Security Rationale
+
+This project contains code that could potentially make network requests and access external resources. Code execution is strictly prohibited to prevent any unintended side effects or security risks.
+
+## When Asked to Test or Run Code
+
+If asked to test or run Python code:
+
+1. Explain that code execution is not allowed per project rules
+2. Offer to review the code for syntax errors or logical issues
+3. Suggest manual testing by the user if needed
+4. Provide code analysis and suggestions instead
