@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import time
 
 # Configuration constants
-USER_AGENT = 'sitemap-to-llms/1.0 (+https://github.com/your-repo)'
+USER_AGENT = 'sitemap-to-llms/1.0 (+https://github.com/jeroensmink98/sitemap-to-llmstxt)'
 
 def validate_domain(domain):
     """Validate and normalize domain input"""
