@@ -1,0 +1,92 @@
+# Caddyfile for Sitemap to LLMS.txt
+# Domain: llmstxtgenerator.devopsfrontier.com
+
+llmstxtgenerator.devopsfrontier.com {
+    # Automatic HTTPS with Let's Encrypt
+    tls {
+        on_demand
+    }
+
+    # Security headers
+    header {
+        # Security
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        
+        # Performance
+        X-DNS-Prefetch-Control "on"
+        
+        # Remove server info
+        -Server
+        Server "Caddy"
+    }
+
+    # Rate limiting
+    @api {
+        path /api/*
+    }
+    @static {
+        path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.woff *.woff2 *.ttf *.eot
+    }
+
+    # API proxy to backend
+    handle @api {
+        reverse_proxy backend:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+        
+        # Rate limiting for API
+        rate_limit {
+            zone api
+            rate 10r/s
+            burst 20
+        }
+    }
+
+    # Static files with caching
+    handle @static {
+        root * /var/www/html
+        file_server
+        header Cache-Control "public, max-age=31536000, immutable"
+    }
+
+    # Health check endpoint
+    handle /health {
+        respond "healthy" 200
+        header Content-Type "text/plain"
+    }
+
+    # Serve Svelte app (SPA routing)
+    handle {
+        root * /var/www/html
+        file_server
+        try_files {path} /index.html
+        
+        # Cache HTML files for a short time
+        @html {
+            path *.html
+        }
+        header @html Cache-Control "public, max-age=3600, must-revalidate"
+    }
+
+    # Logging
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+}
+
+# HTTP to HTTPS redirect
+http://llmstxtgenerator.devopsfrontier.com {
+    redir https://{host}{uri} permanent
+}
+
+# www subdomain redirect
+www.llmstxtgenerator.devopsfrontier.com {
+    redir https://llmstxtgenerator.devopsfrontier.com{uri} permanent
+}
