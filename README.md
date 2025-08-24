@@ -15,6 +15,30 @@ A simple CLI tool that converts existing sitemap.xml files to LLMS.txt format fi
 - **Input Validation**: Comprehensive validation of domains, URLs, and command line arguments
 - **Error Handling**: Graceful error handling with helpful error messages and usage examples
 
+## Prerequisites
+
+Before using this tool, you need to have:
+
+- **Python 3.8+** installed on your system
+- **uv** package manager installed
+
+### Installing Python
+
+Download and install Python from [python.org](https://python.org) or use your system's package manager.
+
+### Installing uv
+
+```bash
+# On Windows (PowerShell)
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# On macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Or using pip
+pip install uv
+```
+
 ## Installation
 
 ```bash
